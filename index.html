@@ -5,973 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Crazy Day: Influencer English Exam</title>
     <style>
-        /* =========================================================
-           1. REGLAS DE DISEÑO Y ESTÉTICA (Brutalismo B/N)
-           ========================================================= */
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #000000;
-            --border-width: 4px;
-            --error-color: #d9534f;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, h4 {
-            text-transform: uppercase;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-
-        .mono {
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-        }
-
-        /* Botones Brutalistas */
-        button, .btn {
-            display: inline-block;
-            background: var(--bg-color);
-            color: var(--text-color);
-            border: var(--border-width) solid var(--text-color);
-            padding: 12px 24px;
-            font-size: 1rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            box-shadow: 4px 4px 0px var(--text-color);
-            margin-top: 10px;
-        }
-
-        button:hover, .btn:hover {
-            background: var(--text-color);
-            color: var(--bg-color);
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px var(--text-color);
-        }
-
-        button:active {
-            transform: translate(2px, 2px);
-            box-shadow: 0px 0px 0px var(--text-color);
-        }
-
-        /* Inputs y Selects */
-        input[type="text"], input[type="number"], textarea, select {
-            width: 100%;
-            padding: 15px;
-            border: var(--border-width) solid var(--text-color);
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            outline: none;
-            transition: 0.2s;
-            appearance: none;
-            border-radius: 0;
-            background: #fff;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            border-left: 15px solid var(--text-color);
-            background: #fafafa;
-        }
-
-        /* Contenedores Principales */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            padding-top: 100px; 
-        }
-
-        .phase-screen {
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        .phase-screen.active {
-            display: block;
-        }
-
-        /* Cajas Narrativas y Componentes */
-        .story-box {
-            border-left: 8px solid var(--text-color);
-            padding: 15px 20px;
-            background: #f0f0f0;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-
-        .bilingual-box {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .bilingual-box > div {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .wiki-vocab {
-            border: 2px solid var(--text-color);
-            padding: 15px;
-            margin-bottom: 20px;
-            background: #fff;
-            position: relative;
-        }
-        
-        .wiki-vocab::before {
-            content: "WIKI-VOCAB";
-            position: absolute;
-            top: -12px;
-            left: 10px;
-            background: #fff;
-            padding: 0 5px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            border: 2px solid var(--text-color);
-        }
-        
-        .grammar-tag {
-            display: inline-block;
-            background: var(--text-color);
-            color: #fff;
-            padding: 4px 8px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .btn-hint {
-            font-size: 0.8rem;
-            padding: 8px 16px;
-            border: 2px dashed var(--text-color);
-            box-shadow: 2px 2px 0px var(--text-color);
-            margin-bottom: 15px;
-        }
-
-        .hint-box {
-            display: none;
-            background: #eee;
-            padding: 10px;
-            border-left: 5px dashed var(--text-color);
-            margin-bottom: 15px;
-            font-style: italic;
-        }
-
-        /* =========================================================
-           2. BARRA SUPERIOR (DASHBOARD)
-           ========================================================= */
-        #dashboard {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: var(--bg-color);
-            border-bottom: var(--border-width) solid var(--text-color);
-            z-index: 1000;
-            display: none;
-            padding: 10px 20px;
-            box-shadow: 0px 4px 0px rgba(0,0,0,0.1);
-            transition: background 0.3s;
-        }
-
-        .dash-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .dash-stat {
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #eee;
-            border: 2px solid var(--text-color);
-            margin-top: 5px;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--text-color);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        /* =========================================================
-           3. MODALES Y LIENZO
-           ========================================================= */
-        #feedback-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: var(--bg-color);
-            border: var(--border-width) solid var(--text-color);
-            padding: 30px;
-            max-width: 600px;
-            width: 90%;
-            box-shadow: 10px 10px 0px #fff;
-            text-align: left;
-        }
-
-        canvas {
-            border: var(--border-width) dashed var(--text-color);
-            background: #fafafa;
-            cursor: crosshair;
-            width: 100%;
-            max-width: 500px;
-            touch-action: none;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* =========================================================
-           4. PANTALLA DE RESULTADOS Y PRINT (DOBLE PÁGINA)
-           ========================================================= */
-        #results {
-            display: none;
-        }
-
-        .certificate {
-            border: 8px double var(--text-color);
-            padding: 40px;
-            background: #fff;
-            margin-bottom: 20px;
-        }
-
-        .plaque-header {
-            text-align: center;
-            border-bottom: 4px solid #000;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        table, th, td {
-            border: 2px solid var(--text-color);
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background: var(--text-color);
-            color: #fff;
-            text-transform: uppercase;
-        }
-
-        .print-actions {
-            text-align: center;
-            margin: 40px 0;
-        }
-
-        @media print {
-            body { background: #fff; padding: 0; }
-            #dashboard, .btn-no-print, .print-actions { display: none !important; }
-            .container { padding-top: 0; margin: 0; max-width: 100%; }
-            .certificate { border: none; padding: 0; margin: 0; }
-            .page-break { page-break-before: always; }
-        }
+        :root { --bg-color: #ffffff; --text-color: #000000; --border-width: 4px; --error-color: #d9534f; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        h1, h2 { text-transform: uppercase; font-weight: 900; }
+        .mono { font-family: 'Courier New', Courier, monospace; font-weight: bold; }
+        button, .btn { display: inline-block; background: var(--bg-color); color: var(--text-color); border: var(--border-width) solid var(--text-color); padding: 12px 24px; font-weight: bold; cursor: pointer; box-shadow: 4px 4px 0px var(--text-color); margin-top: 10px; }
+        button:hover { background: var(--text-color); color: var(--bg-color); }
+        input, textarea, select { width: 100%; padding: 15px; border: var(--border-width) solid var(--text-color); font-family: 'Courier New', Courier, monospace; margin-bottom: 15px; outline: none; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; padding-top: 100px; }
+        .phase-screen { display: none; }
+        .phase-screen.active { display: block; }
+        .story-box { border-left: 8px solid var(--text-color); padding: 15px 20px; background: #f0f0f0; margin-bottom: 25px; }
+        .grammar-tag { background: var(--text-color); color: #fff; padding: 5px 10px; display: inline-block; font-size: 0.9rem; margin-bottom: 10px; }
+        #dashboard { position: fixed; top: 0; left: 0; width: 100%; background: #fff; border-bottom: 4px solid #000; z-index: 1000; padding: 15px; display: none; }
+        .page-break { page-break-before: always; }
+        @media print { #dashboard, .btn-no-print { display: none !important; } }
     </style>
 </head>
 <body>
 
-    <!-- DASHBOARD FLOTANTE -->
     <div id="dashboard">
-        <div class="dash-inner">
-            <div class="dash-stat">🕒 <span id="dash-time">30:00</span></div>
-            <div class="dash-stat">🗓️ <span id="dash-daytime">08:00 AM</span></div>
-            <div class="dash-stat mono">❤️ FOLLOWERS: <span id="dash-score">0</span></div>
+        <div style="display:flex; justify-content:space-between;">
+            <div class="mono">TIEMPO: <span id="dash-time">40:00</span></div>
+            <div class="mono">LIKES: <span id="dash-score">0</span></div>
         </div>
-        <div class="progress-bar"><div class="progress-fill" id="dash-progress"></div></div>
     </div>
 
     <div class="container">
-        
-        <!-- PANTALLA INICIAL (BILINGÜE) -->
         <div id="landing" class="phase-screen active">
             <h1>URBAN INFLUENCER: A CRAZY DAY</h1>
-            
-            <div class="bilingual-box">
-                <div class="story-box">
-                    <p><strong>INSTRUCCIONES CLASIFICADAS:</strong></p>
-                    <p>Hoy es tu día más caótico. Tienes 30 minutos para sobrevivir. Elige tu meta de seguidores (cada 100k es una pregunta nueva en tu día).</p>
-                    <p>Responde <strong>TRADUCIENDO Y ESCRIBIENDO ESTRICTAMENTE EN INGLÉS</strong> (sin signos de interrogación ni exclamación obligatorios).</p>
-                    <p>Respuestas correctas suman <strong>100,000 seguidores</strong>. Errores restan <strong>50,000</strong>. Las pistas cuestan <strong>10,000</strong>.</p>
-                </div>
-                <div class="story-box" style="border-color: #555; background: #fafafa;">
-                    <p><strong>CLASSIFIED INSTRUCTIONS:</strong></p>
-                    <p>Today is your most chaotic day. You have 30 minutes to survive. Choose your follower goal (every 100k adds a new question to your day).</p>
-                    <p>Answer by <strong>TRANSLATING AND TYPING STRICTLY IN ENGLISH</strong> (question marks or exclamation points are not mandatory).</p>
-                    <p>Correct answers add <strong>100,000 followers</strong>. Mistakes deduct <strong>50,000</strong>. Hints cost <strong>10,000</strong>.</p>
-                </div>
-            </div>
-            
-            <label class="mono">NOMBRE / NAME:</label>
-            <input type="text" id="studentName" placeholder="Ej. John Doe" required>
-            
-            <label class="mono">MATRÍCULA / ID:</label>
-            <input type="text" id="studentId" placeholder="Ej. A0123456" required>
-            
-            <label class="mono">META DE SEGUIDORES / FOLLOWER GOAL:</label>
+            <p>Elige tu meta (cada 100k es una pregunta). Tienes 40 minutos.</p>
+            <input type="text" id="studentName" placeholder="Nombre">
             <select id="goalFollowers">
-                <option value="500000">500,000 Likes (5 Fases / Questions)</option>
-                <option value="600000">600,000 Likes (6 Fases / Questions)</option>
-                <option value="700000">700,000 Likes (7 Fases / Questions)</option>
-                <option value="800000">800,000 Likes (8 Fases / Questions)</option>
-                <option value="900000">900,000 Likes (9 Fases / Questions)</option>
-                <option value="1000000" selected>1,000,000 Likes (10 Fases / Questions)</option>
+                <option value="500000">500,000 Likes (5 Fases)</option>
+                <option value="1000000" selected>1,000,000 Likes (10 Fases)</option>
             </select>
-
-            <button class="btn" onclick="startExam()">INICIAR / START ▶</button>
+            <button class="btn" onclick="startExam()">INICIAR ▶</button>
         </div>
 
-        <!-- FASE 1 -->
-        <div id="phase1" class="phase-screen">
-            <h2>FASE 1: LA ENTREVISTA</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: MODAL VERB "COULD"]</div><br>
-                Zendaya te mira esperando. Necesitas hacer una petición formal para iniciar.
-                <br><br><strong>Traduce:</strong> <em>"¿Podríamos comenzar la entrevista?"</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Verb:</strong> start (empezar)<br>
-                <strong>Noun:</strong> interview (entrevista)
-            </div>
-            <button class="btn btn-hint" onclick="useHint(1)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint1" class="hint-box">Usa la estructura: Could + we + verbo base...</div>
-            <input type="text" id="ans1" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(1)">EVALUAR ⏭</button>
-        </div>
+        <!-- Fases Dinámicas se generan por JS -->
+        <div id="dynamic-content"></div>
 
-        <!-- FASE 2 -->
-        <div id="phase2" class="phase-screen">
-            <h2>FASE 2: EL PODCAST</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: PAST PERFECT]</div><br>
-                Te preguntan cómo llegaste a la fama. Habla de tu esfuerzo anterior a ser famoso.
-                <br><br><strong>Traduce:</strong> <em>"Yo había trabajado duro."</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Verb:</strong> work (trabajar) -> worked<br>
-                <strong>Adverb:</strong> hard (duro)
-            </div>
-            <button class="btn btn-hint" onclick="useHint(2)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint2" class="hint-box">Estructura: Sujeto + had + participio.</div>
-            <input type="text" id="ans2" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(2)">EVALUAR ⏭</button>
-        </div>
-
-        <!-- FASE 3 -->
-        <div id="phase3" class="phase-screen">
-            <h2>FASE 3: BREAKING NEWS</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: PRESENT CONTINUOUS]</div><br>
-                Sacas el celular para grabar algo que está ocurriendo en este mismo instante.
-                <br><br><strong>Traduce:</strong> <em>"Un objeto está aterrizando."</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Noun:</strong> object (objeto)<br>
-                <strong>Verb:</strong> land (aterrizar)
-            </div>
-            <button class="btn btn-hint" onclick="useHint(3)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint3" class="hint-box">Estructura: Sujeto + is/are + verbo-ing.</div>
-            <input type="text" id="ans3" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(3)">EVALUAR ⏭</button>
-        </div>
-
-        <!-- FASE 4 -->
-        <div id="phase4" class="phase-screen">
-            <h2>FASE 4: YOUTUBE REVIEW</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: SIMPLE PAST]</div><br>
-                Estás criticando la temporada que ya concluyó de una serie de televisión.
-                <br><br><strong>Traduce:</strong> <em>"El final fue terrible."</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Noun:</strong> ending (final)<br>
-                <strong>Adjective:</strong> terrible
-            </div>
-            <button class="btn btn-hint" onclick="useHint(4)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint4" class="hint-box">Utiliza el verbo to be en pasado para una cosa (it).</div>
-            <input type="text" id="ans4" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(4)">EVALUAR ⏭</button>
-        </div>
-
-        <!-- FASE 5 -->
-        <div id="phase5" class="phase-screen">
-            <h2>FASE 5: PAPARAZZI</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: FUTURE CONTINUOUS]</div><br>
-                Huyes de la prensa y confirmas la acción que estarás realizando en unos minutos.
-                <br><br><strong>Traduce:</strong> <em>"Yo estaré conduciendo rápido."</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Verb:</strong> drive (conducir)<br>
-                <strong>Adverb:</strong> fast (rápido)
-            </div>
-            <button class="btn btn-hint" onclick="useHint(5)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint5" class="hint-box">Estructura: Sujeto + will be + verbo-ing.</div>
-            <input type="text" id="ans5" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(5)">EVALUAR ⏭</button>
-        </div>
-
-        <!-- FASE 6 -->
-        <div id="phase6" class="phase-screen">
-            <h2>FASE 6: LA NEGOCIACIÓN</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: MODAL VERB "SHALL"]</div><br>
-                En la sala de juntas, ofreces dar el siguiente paso de manera muy formal.
-                <br><br><strong>Traduce:</strong> <em>"¿Redactaremos el contrato?"</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Verb:</strong> draft (redactar)<br>
-                <strong>Noun:</strong> contract (contrato)
-            </div>
-            <button class="btn btn-hint" onclick="useHint(6)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint6" class="hint-box">Usa Shall para sugerencias formales con We: Shall we + verbo base...</div>
-            <input type="text" id="ans6" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(6)">EVALUAR ⏭</button>
-        </div>
-
-        <!-- FASE 7 -->
-        <div id="phase7" class="phase-screen">
-            <h2>FASE 7: EL ESCÁNDALO</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: PRESENT PERFECT]</div><br>
-                Se filtró un chisme reciente que afecta tu presente. Admites tu culpa usando una estructura que conecta el pasado con el ahora (no uses Pasado Simple).
-                <br><br><strong>Traduce:</strong> <em>"Yo he cometido un error."</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Collocation:</strong> make a mistake (cometer un error)<br>
-                <strong>Verb past participle:</strong> made
-            </div>
-            <button class="btn btn-hint" onclick="useHint(7)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint7" class="hint-box">Estructura: Sujeto + have + participio del verbo.</div>
-            <input type="text" id="ans7" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(7)">EVALUAR ⏭</button>
-        </div>
-
-        <!-- FASE 8 -->
-        <div id="phase8" class="phase-screen">
-            <h2>FASE 8: LA CONFERENCIA</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: FUTURE PERFECT]</div><br>
-                Lanzas tu app y presumes la meta que, para cierto punto del futuro, ya estará completada.
-                <br><br><strong>Traduce:</strong> <em>"Nosotros habremos alcanzado un millón."</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Verb:</strong> reach (alcanzar) -> reached<br>
-                <strong>Noun:</strong> one million
-            </div>
-            <button class="btn btn-hint" onclick="useHint(8)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint8" class="hint-box">Estructura: Sujeto + will have + participio.</div>
-            <input type="text" id="ans8" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(8)">EVALUAR ⏭</button>
-        </div>
-
-        <!-- FASE 9 -->
-        <div id="phase9" class="phase-screen">
-            <h2>FASE 9: LA REDENCIÓN</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: MODAL VERB "OUGHT TO"]</div><br>
-                Después del caos, sientes el deber o la obligación moral de arreglar las cosas frente a tu público.
-                <br><br><strong>Traduce:</strong> <em>"Yo debería disculparme."</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Verb:</strong> apologize (disculparse)
-            </div>
-            <button class="btn btn-hint" onclick="useHint(9)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint9" class="hint-box">Estructura: Sujeto + ought to + verbo base.</div>
-            <input type="text" id="ans9" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(9)">EVALUAR ⏭</button>
-        </div>
-
-        <!-- FASE 10 -->
-        <div id="phase10" class="phase-screen">
-            <h2>FASE 10: EL RUMOR FINAL</h2>
-            <div class="story-box">
-                <div class="grammar-tag">[USAR: MODAL VERB "MIGHT"]</div><br>
-                Te enteras de una muy leve probabilidad o posibilidad de que los patrocinadores den de baja el trato.
-                <br><br><strong>Traduce:</strong> <em>"Ellos podrían cancelarlo."</em>
-            </div>
-            <div class="wiki-vocab">
-                <strong>Verb:</strong> cancel (cancelar)<br>
-                <strong>Pronoun:</strong> it (lo)
-            </div>
-            <button class="btn btn-hint" onclick="useHint(10)">💡 PISTA (-10k Seguidores)</button>
-            <div id="hint10" class="hint-box">Estructura para baja probabilidad: Sujeto + might + verbo base.</div>
-            <input type="text" id="ans10" placeholder="Escribe tu traducción aquí...">
-            <button class="btn" onclick="evaluatePhase(10)">EVALUAR ⏭</button>
-        </div>
-
-        <!-- FASE FIRMA (BILINGÜE) -->
-        <div id="phase-sig" class="phase-screen">
-            <h2>FASE FINAL: LA PLACA / THE PLAQUE</h2>
-            
-            <div class="bilingual-box">
-                <div class="story-box">
-                    <strong>[ES]</strong> Escribe un mensaje a tus seguidores (en inglés) y dibuja tu firma digital. Esto aparecerá en tu placa.
-                </div>
-                <div class="story-box" style="border-color: #555; background: #fafafa;">
-                    <strong>[EN]</strong> Write a message to your fans (in English) and draw your digital signature. This will appear on your plaque.
-                </div>
-            </div>
-            
-            <label class="mono">MENSAJE / MESSAGE (ENGLISH):</label>
-            <textarea id="ans-sig" rows="3" placeholder="Thank you guys..."></textarea>
-            
-            <label class="mono">FIRMA / SIGNATURE (Draw):</label><br>
-            <canvas id="signatureCanvas" height="200"></canvas><br>
-            <button class="btn btn-hint" onclick="clearCanvas()">Borrar / Clear 🗑</button><br><br>
-
-            <button class="btn" onclick="evaluatePhase('sig')">GUARDAR / SAVE ⏭</button>
-        </div>
-
-        <!-- FASE MATEMÁTICAS (BILINGÜE) -->
-        <div id="phase-math" class="phase-screen">
-            <h2>AUDITORÍA / AUDIT</h2>
-            <div class="bilingual-box">
-                <div class="story-box">
-                    <strong>[ES]</strong> Tu agencia necesita tu <strong>Engagement Rate</strong>.<br>
-                    Toma tus <strong id="valFollowersES">X</strong> Seguidores actuales, divídelo entre tu Meta de <strong id="valGoalES">Y</strong> seguidores, multiplícalo por 100 y escribe el número entero.
-                </div>
-                <div class="story-box" style="border-color: #555; background: #fafafa;">
-                    <strong>[EN]</strong> Your agency needs the <strong>Engagement Rate</strong>.<br>
-                    Take your <strong id="valFollowersEN">X</strong> current Followers, divide by your Goal of <strong id="valGoalEN">Y</strong> followers, multiply by 100 and type the whole number.
-                </div>
-            </div>
-            
-            <label class="mono">PORCENTAJE / PERCENTAGE (%):</label>
-            <input type="number" id="ans-math" placeholder="Ej. 100">
-            
-            <button class="btn" onclick="evaluatePhase('math')">FINALIZAR / FINISH 🏁</button>
-        </div>
-
-        <!-- PANTALLAS DE RESULTADOS (DOBLE PÁGINA) -->
+        <!-- Resultados -->
         <div id="results">
-            
-            <!-- PÁGINA 1: CERTIFICADO INGLÉS -->
-            <div class="certificate en">
-                <div class="plaque-header">
-                    <h1>OFFICIAL INFLUENCER PLAQUE</h1>
-                    <h3>COMMEMORATING A CRAZY DAY OF COMMUNICATION</h3>
-                </div>
-                
-                <div class="story-box" style="text-align: center;">
-                    <h2 id="r-name-en">JOHN DOE</h2>
-                    <p class="mono">ID: <span id="r-id-en">A0123</span></p>
-                    <h1 style="font-size: 3rem; margin: 20px 0;" id="r-score-en">1,000,000 LIKES</h1>
-                    <p style="font-style: italic; font-size: 1.2rem;">"<span id="r-message-en">Thank you!</span>"</p>
-                    <img class="r-signature" src="" style="max-height: 100px; margin-top: 20px;" alt="Signature">
-                </div>
-
-                <h3>OPERATIONAL METRICS</h3>
-                <table>
-                    <thead>
-                        <tr><th>Start Time</th><th>End Time</th><th>Total (sec)</th><th>Goal Rate</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="r-start-en">00:00:00</td>
-                            <td id="r-end-en">00:00:00</td>
-                            <td id="r-total-en">0</td>
-                            <td id="r-rate-en">0%</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="certificate">
+                <h1>OFFICIAL INFLUENCER PLAQUE</h1>
+                <h1 id="r-score" style="font-size:3rem;">0 LIKES</h1>
             </div>
-
-            <!-- SALTO DE PÁGINA PARA IMPRESIÓN -->
             <div class="page-break"></div>
-
-            <!-- PÁGINA 2: CERTIFICADO ESPAÑOL -->
-            <div class="certificate es">
-                <div class="plaque-header">
-                    <h1>PLACA OFICIAL DE INFLUENCER</h1>
-                    <h3>CONMEMORANDO UN DÍA CAÓTICO DE COMUNICACIÓN</h3>
-                </div>
-                
-                <div class="story-box" style="text-align: center;">
-                    <h2 id="r-name-es">JOHN DOE</h2>
-                    <p class="mono">ID: <span id="r-id-es">A0123</span></p>
-                    <h1 style="font-size: 3rem; margin: 20px 0;" id="r-score-es">1,000,000 SEGUIDORES</h1>
-                    <p style="font-style: italic; font-size: 1.2rem;">"<span id="r-message-es">Thank you!</span>"</p>
-                    <img class="r-signature" src="" style="max-height: 100px; margin-top: 20px;" alt="Signature">
-                </div>
-
-                <h3>MÉTRICAS OPERATIVAS</h3>
-                <table>
-                    <thead>
-                        <tr><th>Hora Inicio</th><th>Hora Término</th><th>Total (seg)</th><th>Logro de Meta</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="r-start-es">00:00:00</td>
-                            <td id="r-end-es">00:00:00</td>
-                            <td id="r-total-es">0</td>
-                            <td id="r-rate-es">0%</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3>AUDITORÍA TÉCNICA / TECHNICAL AUDIT</h3>
-                <div class="mono" style="font-size: 0.85rem; background: #eee; padding: 15px; border: 2px solid #000;">
-                    <p>1. could we start the interview</p>
-                    <p>2. i had worked hard</p>
-                    <p>3. an object is landing</p>
-                    <p>4. the ending was terrible</p>
-                    <p>5. i will be driving fast</p>
-                    <p>6. shall we draft the contract</p>
-                    <p>7. i have made a mistake</p>
-                    <p>8. we will have reached one million</p>
-                    <p>9. i ought to apologize</p>
-                    <p>10. they might cancel it</p>
-                </div>
+            <div class="certificate">
+                <h1>PLACA OFICIAL</h1>
+                <h1 id="r-score-es">0 SEGUIDORES</h1>
+                <button class="btn btn-no-print" onclick="window.print()">IMPRIMIR</button>
             </div>
-
-            <!-- BOTONES FINALES -->
-            <div class="print-actions">
-                <button class="btn btn-no-print" onclick="window.print()">🖨 IMPRIMIR / PRINT (2 PÁGINAS)</button>
-            </div>
-        </div>
-
-    </div> <!-- End Container -->
-
-    <!-- MODAL DE RETROALIMENTACIÓN -->
-    <div id="feedback-modal">
-        <div class="modal-content">
-            <h2 id="modal-title">RESULTADO</h2>
-            <p id="modal-body" class="story-box">Mensaje.</p>
-            <button class="btn" onclick="nextStepLogic()">ENTENDIDO / GOT IT ⏭</button>
         </div>
     </div>
 
     <script>
-        /* =========================================================
-           DICCIONARIOS Y CONSTANTES LOGICAS
-           ========================================================= */
         const ANS = {
-            1: "could we start the interview",
+            1: ["could we start the interview", "can we start the interview", "shall we start the interview", "may we start the interview"],
             2: "i had worked hard",
             3: "an object is landing",
             4: "the ending was terrible",
             5: "i will be driving fast",
             6: "shall we draft the contract",
-            7: "i have made a mistake",
-            8: "we will have reached one million",
-            9: "i ought to apologize",
-            10: "they might cancel it"
+            7: "i have been waiting for hours",
+            8: "i was watching tv when you called",
+            9: "i have made a mistake",
+            10: "we will have reached one million"
         };
 
-        const FEEDBACK = {
-            1: "Modal formal 'Could' para peticiones con nosotros (we).",
-            2: "Past Perfect indica una acción anterior a otra en el pasado. Sujeto + had + participio.",
-            3: "Present Continuous para acciones que ocurren en este instante. Sujeto + is/are + verbo-ing.",
-            4: "Simple Past del verbo to be. The ending (it) + was.",
-            5: "Future Continuous describe acción en progreso futuro. will be + verbo-ing.",
-            6: "Modal 'Shall' es ideal para ofertas y sugerencias formales con I y We.",
-            7: "Present Perfect para acciones recientes que afectan el presente. have/has + participio.",
-            8: "Future Perfect para acciones que estarán completas en un punto del futuro. will have + participio.",
-            9: "Modal 'Ought to' expresa un deber moral, muy similar a should.",
-            10: "Modal 'Might' expresa una probabilidad o posibilidad baja."
-        };
+        let followers = 0, goal = 0, currentStep = 0, timer = 2400; // 40 minutos
 
-        /* =========================================================
-           VARIABLES GLOBALES
-           ========================================================= */
-        let stepOrder = []; 
-        let currentStepIndex = 0;
-        
-        let followers = 0;
-        let goal = 0;
-        let selectedQuestions = 0;
-        
-        let timeRemaining = 1800; // 30 min
-        let timerInterval;
-        let startTime, endTime;
-        let studentData = { name: "", id: "", message: "" };
-
-        /* =========================================================
-           MÉTODOS AUXILIARES
-           ========================================================= */
-        function cleanString(str) {
-            return str.toLowerCase().replace(/[.,!?¿¡]/g, '').replace(/\s+/g, ' ').trim();
-        }
-
-        function formatTime(seconds) {
-            let m = Math.floor(seconds / 60);
-            let s = seconds % 60;
-            return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
-        }
-
-        function getClockTime(stepNum) {
-            let baseHour = 8;
-            let minutesToAdd = stepNum * 45; 
-            let h = baseHour + Math.floor(minutesToAdd / 60);
-            let m = minutesToAdd % 60;
-            let ampm = h >= 12 ? 'PM' : 'AM';
-            if (h > 12) h -= 12;
-            return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
-        }
-
-        function showDashboardAlert() {
-            const dash = document.getElementById('dashboard');
-            dash.style.background = 'var(--error-color)';
-            setTimeout(() => { dash.style.background = 'var(--bg-color)'; }, 500);
-        }
-
-        function updateDashboard() {
-            document.getElementById('dash-score').innerText = followers.toLocaleString();
-            document.getElementById('dash-daytime').innerText = getClockTime(currentStepIndex);
-            
-            let totalSteps = selectedQuestions + 2;
-            let progress = (currentStepIndex / totalSteps) * 100;
-            document.getElementById('dash-progress').style.width = progress + '%';
-        }
-
-        function useHint(phase) {
-            if (followers >= 10000) {
-                followers -= 10000;
-            } else {
-                followers = 0;
-            }
-            updateDashboard();
-            document.getElementById('hint' + phase).style.display = 'block';
-        }
-
-        /* =========================================================
-           MOTOR DEL EXAMEN
-           ========================================================= */
         function startExam() {
-            const n = document.getElementById('studentName').value;
-            const i = document.getElementById('studentId').value;
-            const g = document.getElementById('goalFollowers').value;
-
-            if(!n || !i) {
-                alert("Completa tu Nombre y Matrícula / Fill Name and ID.");
-                return;
-            }
-
-            studentData.name = n;
-            studentData.id = i;
-            goal = parseInt(g);
-            selectedQuestions = goal / 100000; 
-
-            stepOrder = [];
-            for(let j=1; j<=selectedQuestions; j++) {
-                stepOrder.push('phase' + j);
-            }
-            stepOrder.push('phase-sig');
-            stepOrder.push('phase-math');
-
-            startTime = new Date();
+            goal = parseInt(document.getElementById('goalFollowers').value);
             document.getElementById('dashboard').style.display = 'block';
-            
-            timerInterval = setInterval(() => {
-                timeRemaining--;
-                document.getElementById('dash-time').innerText = formatTime(timeRemaining);
-                if(timeRemaining <= 0) {
-                    clearInterval(timerInterval);
-                    alert("¡EL TIEMPO SE ACABÓ / TIME'S UP!");
-                    finishExam();
-                }
+            setInterval(() => {
+                timer--;
+                document.getElementById('dash-time').innerText = Math.floor(timer/60) + ":" + (timer%60).toString().padStart(2,'0');
+                if(timer <= 0) finishExam();
             }, 1000);
-
-            showScreen(stepOrder[0]);
+            renderPhases();
         }
 
-        function showScreen(screenId) {
-            document.querySelectorAll('.phase-screen').forEach(el => el.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-            updateDashboard();
-
-            if(screenId === 'phase-math') {
-                document.getElementById('valFollowersES').innerText = followers.toLocaleString();
-                document.getElementById('valGoalES').innerText = goal.toLocaleString();
-                document.getElementById('valFollowersEN').innerText = followers.toLocaleString();
-                document.getElementById('valGoalEN').innerText = goal.toLocaleString();
+        function renderPhases() {
+            let num = goal / 100000;
+            let html = "";
+            for(let i=1; i<=num; i++) {
+                html += `
+                <div id="phase${i}" class="phase-screen">
+                    <h2>FASE ${i}</h2>
+                    <div class="grammar-tag">USAR: ${getGrammarLabel(i)}</div>
+                    <div class="story-box">Traduce: "${getPrompt(i)}"</div>
+                    <input type="text" id="ans${i}">
+                    <button class="btn" onclick="evaluatePhase(${i})">EVALUAR</button>
+                </div>`;
             }
+            document.getElementById('dynamic-content').innerHTML = html;
+            document.getElementById('phase1').classList.add('active');
         }
 
-        function evaluatePhase(phaseId) {
-            let isCorrect = false;
-            let msgTitle = "";
-            let msgBody = "";
+        function getGrammarLabel(i) {
+            const labels = ["MODAL VERB (Could/Can/Shall/May)", "PAST PERFECT", "PRESENT CONTINUOUS", "SIMPLE PAST", "FUTURE CONTINUOUS", "MODAL VERB (Shall)", "PRESENT PERFECT CONTINUOUS", "PAST CONTINUOUS", "PRESENT PERFECT", "FUTURE PERFECT"];
+            return labels[i-1];
+        }
 
-            if (typeof phaseId === 'number') {
-                let userAns = cleanString(document.getElementById('ans' + phaseId).value);
-                let expected = ANS[phaseId];
+        function getPrompt(i) {
+            const prompts = ["¿Podríamos comenzar la entrevista?", "Yo había trabajado duro.", "Un objeto está aterrizando.", "El final fue terrible.", "Yo estaré conduciendo rápido.", "¿Redactaremos el contrato?", "He estado esperando por horas.", "Estaba viendo TV cuando llamaste.", "He cometido un error.", "Nosotros habremos alcanzado un millón."];
+            return prompts[i-1];
+        }
 
-                if (userAns === expected) {
-                    isCorrect = true;
-                    followers += 100000;
-                    msgTitle = "CORRECT / CORRECTO (+100k Likes)";
-                    msgBody = "¡Excelente! " + FEEDBACK[phaseId];
-                } else {
-                    isCorrect = false;
-                    followers = Math.max(0, followers - 50000); 
-                    showDashboardAlert();
-                    msgTitle = "ERROR (-50k Likes)";
-                    msgBody = "Esperado / Expected: " + expected.toUpperCase() + "\n\n" + FEEDBACK[phaseId];
-                }
-            } 
-            else if (phaseId === 'sig') {
-                studentData.message = document.getElementById('ans-sig').value || "No comments.";
-                isCorrect = true;
-                msgTitle = "SAVED / GUARDADO";
-                msgBody = "Tu mensaje y firma han sido registrados.";
-            }
-            else if (phaseId === 'math') {
-                let userMath = parseInt(document.getElementById('ans-math').value);
-                let realMath = Math.floor((followers / goal) * 100);
-                
-                if (userMath === realMath) {
-                    isCorrect = true;
-                    msgTitle = "AUDIT PASSED / AUDITORÍA EXITOSA";
-                    msgBody = "Cálculo perfecto.";
-                } else {
-                    isCorrect = false;
-                    followers = Math.max(0, followers - 50000);
-                    showDashboardAlert();
-                    msgTitle = "MATH ERROR / ERROR DE CÁLCULO (-50k Likes)";
-                    msgBody = `El cálculo real era / Real math was: (Lograste ${followers} / Meta ${goal}) * 100 = ${realMath}%.`;
-                }
-            }
-
-            updateDashboard();
+        function evaluatePhase(i) {
+            let val = document.getElementById('ans'+i).value.toLowerCase().trim();
+            let correct = Array.isArray(ANS[i]) ? ANS[i].includes(val) : val === ANS[i];
             
-            const modal = document.getElementById('feedback-modal');
-            document.getElementById('modal-title').innerText = msgTitle;
-            document.getElementById('modal-body').innerText = msgBody;
-            document.getElementById('modal-title').style.color = isCorrect ? "#000" : "var(--error-color)";
-            modal.style.display = 'flex';
-        }
-
-        function nextStepLogic() {
-            document.getElementById('feedback-modal').style.display = 'none';
-            currentStepIndex++;
+            if(correct) followers += 100000;
+            else followers = Math.max(0, followers - 50000);
             
-            if(currentStepIndex < stepOrder.length) {
-                showScreen(stepOrder[currentStepIndex]);
+            document.getElementById('dash-score').innerText = followers;
+            if(document.getElementById('phase'+(i+1))) {
+                document.getElementById('phase'+i).classList.remove('active');
+                document.getElementById('phase'+(i+1)).classList.add('active');
             } else {
                 finishExam();
             }
         }
 
         function finishExam() {
-            clearInterval(timerInterval);
-            endTime = new Date();
-
             document.getElementById('dashboard').style.display = 'none';
-            document.querySelectorAll('.phase-screen').forEach(el => el.classList.remove('active'));
+            document.getElementById('dynamic-content').style.display = 'none';
             document.getElementById('results').style.display = 'block';
-
-            let rate = Math.floor((followers / goal) * 100) + "%";
-            let totalSeg = Math.floor((endTime - startTime)/1000) + " seg";
-            let sigData = canvas.toDataURL();
-
-            // Llenar Datos Inglés
-            document.getElementById('r-name-en').innerText = studentData.name.toUpperCase();
-            document.getElementById('r-id-en').innerText = studentData.id.toUpperCase();
-            document.getElementById('r-score-en').innerText = followers.toLocaleString() + " LIKES";
-            document.getElementById('r-message-en').innerText = studentData.message;
-            document.getElementById('r-start-en').innerText = startTime.toLocaleTimeString();
-            document.getElementById('r-end-en').innerText = endTime.toLocaleTimeString();
-            document.getElementById('r-total-en').innerText = totalSeg;
-            document.getElementById('r-rate-en').innerText = rate;
-
-            // Llenar Datos Español
-            document.getElementById('r-name-es').innerText = studentData.name.toUpperCase();
-            document.getElementById('r-id-es').innerText = studentData.id.toUpperCase();
-            document.getElementById('r-score-es').innerText = followers.toLocaleString() + " LIKES";
-            document.getElementById('r-message-es').innerText = studentData.message;
-            document.getElementById('r-start-es').innerText = startTime.toLocaleTimeString();
-            document.getElementById('r-end-es').innerText = endTime.toLocaleTimeString();
-            document.getElementById('r-total-es').innerText = totalSeg;
-            document.getElementById('r-rate-es').innerText = rate;
-
-            document.querySelectorAll('.r-signature').forEach(img => img.src = sigData);
+            document.getElementById('r-score').innerText = followers + " LIKES";
+            document.getElementById('r-score-es').innerText = followers + " SEGUIDORES";
         }
-
-        /* =========================================================
-           LÓGICA DEL LIENZO (CANVAS)
-           ========================================================= */
-        const canvas = document.getElementById('signatureCanvas');
-        const ctx = canvas.getContext('2d');
-        let isDrawing = false;
-
-        function resizeCanvas() {
-            canvas.width = canvas.parentElement.clientWidth;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        ctx.lineWidth = 3;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#000';
-
-        function startPosition(e) { isDrawing = true; draw(e); }
-        function endPosition() { isDrawing = false; ctx.beginPath(); }
-        
-        function draw(e) {
-            if (!isDrawing) return;
-            e.preventDefault();
-            let rect = canvas.getBoundingClientRect();
-            let x = (e.clientX || e.touches[0].clientX) - rect.left;
-            let y = (e.clientY || e.touches[0].clientY) - rect.top;
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-
-        canvas.addEventListener('mousedown', startPosition);
-        canvas.addEventListener('mouseup', endPosition);
-        canvas.addEventListener('mousemove', draw);
-
-        canvas.addEventListener('touchstart', startPosition, {passive: false});
-        canvas.addEventListener('touchend', endPosition);
-        canvas.addEventListener('touchmove', draw, {passive: false});
-
-        function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
-
     </script>
 </body>
 </html>
